@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Weather App (Django)</title>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/weather/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/static/weather/bootstrap/js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/weather/css/style.css" />
+</head>
+
+<body>
+    <div class="container">
+        <br/>
+        <br/>
+
+        <form name="weather" method="POST">
+            {% csrf_token %}
+            <div class="row" id="main_row">
+                <h1 class="text-center">Weather App</h1>
+                <div class="input-group main">
+                    <input type="text" name='location' class="form-control location_text" placeholder="Your City Name or ZipCode" required >
+                    <span class="input-group-btn">
+                        <input class="btn btn-default search_button" type="submit" value="Go!" />
+                    </span>
+                </div>
+                {% if error %}
+                <div class="row error">
+                    <div class="alert alert-danger text-center" id="error_show">
+                        <strong>Danger!</strong>{{ error }}
+                    </div>
+                </div>
+                {% else %}
+                <div class="row">
+                    <table class="table table-bordered weather_table">
+                        <tbody>
+                            <tr>
+                                {% if address %}
+                                <td>Address</td>
+                                <td>{{ address }}</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                {% if latitude %}
+                                <td>Latitude</td>
+                                <td>{{ latitude }}</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                {% if longitude %}
+                                <td>Longitude</td>
+                                <td>{{ longitude }}</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                {% if data.main.temp %}
+                                <td>Temprature</td>
+                                <td>{{ data.main.temp}} °C</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                {% if data.main.pressure %}
+                                <td>Pressure</td>
+                                <td>{{ data.main.pressure }} hpa</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                {% if data.main.humidity %}
+                                <td>Humidity</td>
+                                <td>{{ data.main.humidity }} %</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                {% if data.wind.speed %}
+                                <td>Wind Speed</td>
+                                <td>{{ data.wind.speed }} m/s</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                {% if data.wind.deg %}
+                                <td>Wind Degree</td>
+                                <td>{{ data.wind.deg }} °</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                {% if data.sys.sunrise %}
+                                <td>Sun Rise</td>
+                                <td>{{ data.sys.sunrise }}</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                {% if data.sys.sunset %}
+                                <td>Sun Set</td>
+                                <td>{{ data.sys.sunset }}</td>
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</body>
+</html>
